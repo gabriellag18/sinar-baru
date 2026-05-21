@@ -27,8 +27,16 @@ export default function ProductSection({ products, loading, error }) {
                 key={product.id}
                 className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
               >
-                <div className="flex h-40 items-center justify-center rounded-2xl bg-blue-50 text-5xl">
-                  🛍️
+                <div className="flex h-40 items-center justify-center rounded-2xl bg-blue-50 p-4 text-5xl">
+                  {product.image_url ? (
+                  <img
+                      src={`http://localhost:8000${product.image_url}`}
+                      alt={product.name}
+                      className="h-full w-full object-contain"
+                  />
+                  ) : (
+                  <span>🛍️</span>
+                  )}
                 </div>
 
                 <h4 className="mt-5 font-extrabold text-slate-950">
@@ -36,7 +44,11 @@ export default function ProductSection({ products, loading, error }) {
                 </h4>
 
                 <p className="mt-1 text-sm text-slate-500">
-                  {product.category}
+                  {product.category.name}
+                </p>
+
+                <p className="mt-3 text-sm text-slate-600">
+                  {product.description}
                 </p>
 
                 <p className="mt-4 text-lg font-extrabold text-blue-700">

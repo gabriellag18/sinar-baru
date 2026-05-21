@@ -1,13 +1,18 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from database import Base, engine
 from routes.products import router as products_router
 from routes.categories import router as categories_router
+from routes.auth import router as auth_router
+from routes.uploads import router as uploads_router
 
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
+
+app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 
 app.add_middleware(
     CORSMiddleware,
@@ -17,8 +22,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(uploads_router, prefix="/api/uploads", tags=["uploads"])
 app.include_router(products_router, prefix="/products", tags=["products"])
 app.include_router(categories_router, prefix="/categories", tags=["categories"])
+app.include_router(auth_router, prefix="/auth", tags=["auth"])
 
 
 @app.get("/")

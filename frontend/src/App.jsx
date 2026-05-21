@@ -1,41 +1,44 @@
-import { useEffect, useState } from "react";
-import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import CategorySection from "./components/CategorySection";
-import ProductSection from "./components/ProductSection";
-import { getProducts } from "./services/api";
-import FeatureBanner from "./components/FeatureBanner";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import HomePage from "./pages/HomePage";
+import AdminLogin from "./pages/admin/AdminLogin";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminProducts from "./pages/admin/AdminProducts";
+import AdminCategories from "./pages/admin/AdminCategories";
+
+import ProtectedRoute from "./components/admin/ProtectedRoute";
 
 export default function App() {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    getProducts()
-      .then((data) => {
-        setProducts(data);
-        setError("");
-      })
-      .catch(() => {
-        setError("Gagal mengambil data produk.");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
-
   return (
-    <main className="min-h-screen bg-slate-50 text-slate-900">
-      <Navbar />
-      <Hero />
-      <FeatureBanner />
-      <CategorySection />
-      <ProductSection
-        products={products}
-        loading={loading}
-        error={error}
-      />
-    </main>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route
+          path="/admin/products"
+          element={
+            <ProtectedRoute>
+              <AdminProducts />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route
+          path="/admin/categories"
+          element={
+            <ProtectedRoute>
+              <AdminCategories />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </BrowserRouter>
   );
 }
