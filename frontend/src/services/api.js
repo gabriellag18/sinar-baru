@@ -86,3 +86,52 @@ export function deleteCategory(id) {
     method: "DELETE",
   });
 }
+
+export function getTransactions() {
+  return request("/finance/transactions");
+}
+
+export function createTransaction(transaction) {
+  return request("/finance/transactions", {
+    method: "POST",
+    body: JSON.stringify(transaction),
+  });
+}
+
+export function deleteTransaction(id) {
+  return request(`/finance/transactions/${id}`, {
+    method: "DELETE",
+  });
+}
+
+export async function uploadCategoryImage(file) {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const response = await fetch(`${API_BASE_URL}/api/uploads/category-image`, {
+    method: "POST",
+    body: formData,
+  });
+
+  if (!response.ok) throw new Error("Category image upload failed");
+
+  return response.json();
+}
+
+export function updateCategory(id, category) {
+  return request(`/categories/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(category),
+  });
+}
+
+export function getSetting(key) {
+  return request(`/settings/${key}`);
+}
+
+export function updateSetting(key, value) {
+  return request(`/settings/${key}`, {
+    method: "PUT",
+    body: JSON.stringify({ value }),
+  });
+}

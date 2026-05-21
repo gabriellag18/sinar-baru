@@ -5,6 +5,8 @@ import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminProducts from "./pages/admin/AdminProducts";
 import AdminCategories from "./pages/admin/AdminCategories";
+import ProductCatalogPage from "./pages/ProductCatalogPage";
+import AdminFinance from "./pages/admin/AdminFinance";
 
 import ProtectedRoute from "./components/admin/ProtectedRoute";
 
@@ -31,6 +33,14 @@ export default function App() {
           }
         />
         <Route
+          path="/admin/finance"
+          element={
+            <ProtectedRoute>
+              <AdminFinance />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/admin"
           element={
             <ProtectedRoute>
@@ -38,6 +48,7 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/products" element={<ProductCatalogPage />} />
       </Routes>
     </BrowserRouter>
   );

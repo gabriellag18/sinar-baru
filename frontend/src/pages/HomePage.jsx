@@ -26,7 +26,7 @@ export default function HomePage() {
     <main className="min-h-screen bg-slate-50 text-slate-900">
       <Navbar />
       <Hero />
-      <FeatureBanner />
+      {/* <FeatureBanner /> */}
       <CategorySection categories={categories} loading={loading} error={error} />
       <ProductSection products={products} loading={loading} error={error} />
     </main>

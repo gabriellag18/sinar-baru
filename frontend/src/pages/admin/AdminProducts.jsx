@@ -11,20 +11,22 @@ import {
 
 const API_BASE_URL = "http://localhost:8000";
 
+const emptyForm = {
+  name: "",
+  price: "",
+  description: "",
+  image_url: "",
+  is_featured: true,
+  category_ids: [],
+};
+
 export default function AdminProducts() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
-  
-  const [form, setForm] = useState({
-    name: "",
-    price: "",
-    description: "",
-    image_url: "",
-    is_featured: true,
-    category_id: "",
-  });
+  const [form, setForm] = useState(emptyForm);
+  const [search, setSearch] = useState("");
 
   function loadData() {
     Promise.all([getProducts(), getCategories()]).then(
@@ -39,6 +41,12 @@ export default function AdminProducts() {
     loadData();
   }, []);
 
+  function openAddModal() {
+    setEditingProduct(null);
+    setForm(emptyForm);
+    setIsOpen(true);
+  }
+
   function openEditModal(product) {
     setEditingProduct(product);
     setForm({
@@ -47,7 +55,7 @@ export default function AdminProducts() {
       description: product.description ?? "",
       image_url: product.image_url ?? "",
       is_featured: product.is_featured,
-      category_id: product.category.id,
+      category_ids: product.categories.map((c) => c.id),
     });
     setIsOpen(true);
   }
@@ -59,6 +67,19 @@ export default function AdminProducts() {
       ...prev,
       [name]: type === "checkbox" ? checked : value,
     }));
+  }
+
+  function toggleCategory(categoryId) {
+    setForm((prev) => {
+      const exists = prev.category_ids.includes(categoryId);
+
+      return {
+        ...prev,
+        category_ids: exists
+          ? prev.category_ids.filter((id) => id !== categoryId)
+          : [...prev.category_ids, categoryId],
+      };
+    });
   }
 
   async function handleImageChange(e) {
@@ -78,7 +99,7 @@ export default function AdminProducts() {
 
     const payload = {
       ...form,
-      category_id: Number(form.category_id),
+      category_ids: form.category_ids.map(Number),
     };
 
     if (editingProduct) {
@@ -89,15 +110,7 @@ export default function AdminProducts() {
 
     setIsOpen(false);
     setEditingProduct(null);
-    setForm({
-      name: "",
-      price: "",
-      description: "",
-      image_url: "",
-      is_featured: true,
-      category_id: "",
-    });
-
+    setForm(emptyForm);
     loadData();
   }
 
@@ -106,43 +119,35 @@ export default function AdminProducts() {
     loadData();
   }
 
+  const filteredProducts = products.filter((product) =>
+    product.name.toLowerCase().includes(search.toLowerCase())
+  );
   return (
     <AdminLayout>
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-4xl font-extrabold text-slate-900">
-            Products
-          </h1>
+          <h1 className="text-4xl font-extrabold text-slate-900">Products</h1>
           <p className="mt-2 text-slate-500">
             Manage products shown on the website.
           </p>
         </div>
 
         <button
-          onClick={() => {
-            setEditingProduct(null);
-            setForm({
-              name: "",
-              price: "",
-              description: "",
-              image_url: "",
-              is_featured: true,
-              category_id: "",
-            });
-            setIsOpen(true);
-          }}
+          onClick={openAddModal}
           className="rounded-xl bg-blue-700 px-5 py-3 font-bold text-white"
         >
           Add Product
         </button>
       </div>
-
+      <input
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        placeholder="Search product name..."
+        className="mt-6 w-full max-w-md rounded-xl border bg-white px-4 py-3 outline-none focus:border-blue-600"
+      />
       <div className="mt-8 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
-        {products.map((product) => (
-          <div
-            key={product.id}
-            className="rounded-3xl bg-white p-5 shadow-sm"
-          >
+        {filteredProducts.map((product) => (
+          <div key={product.id} className="rounded-3xl bg-white p-5 shadow-sm">
             <div className="flex h-40 items-center justify-center rounded-2xl bg-blue-50">
               {product.image_url ? (
                 <img
@@ -160,12 +165,10 @@ export default function AdminProducts() {
             </h2>
 
             <p className="mt-1 text-sm text-slate-500">
-              {product.categories.map((c) => c.name).join(", ")}
+              {product.categories?.map((c) => c.name).join(", ")}
             </p>
 
-            <p className="mt-3 font-bold text-blue-700">
-              {product.price}
-            </p>
+            <p className="mt-3 font-bold text-blue-700">{product.price}</p>
 
             <p className="mt-2 line-clamp-2 text-sm text-slate-500">
               {product.description}
@@ -199,6 +202,7 @@ export default function AdminProducts() {
             <h2 className="text-2xl font-extrabold">
               {editingProduct ? "Edit Product" : "Add Product"}
             </h2>
+
             <input
               name="name"
               placeholder="Product name"
@@ -256,20 +260,25 @@ export default function AdminProducts() {
               )}
             </div>
 
-            <select
-              name="category_id"
-              value={form.category_id}
-              onChange={handleChange}
-              className="mt-3 w-full rounded-xl border px-4 py-3"
-              required
-            >
-              <option value="">Choose category</option>
-              {categories.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.name}
-                </option>
-              ))}
-            </select>
+            <div className="mt-4">
+              <p className="text-sm font-bold text-slate-700">Categories</p>
+
+              <div className="mt-2 grid grid-cols-2 gap-2">
+                {categories.map((category) => (
+                  <label
+                    key={category.id}
+                    className="flex cursor-pointer items-center gap-2 rounded-xl border px-3 py-2 text-sm"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={form.category_ids.includes(category.id)}
+                      onChange={() => toggleCategory(category.id)}
+                    />
+                    {category.name}
+                  </label>
+                ))}
+              </div>
+            </div>
 
             <label className="mt-4 flex items-center gap-2">
               <input
@@ -291,6 +300,7 @@ export default function AdminProducts() {
                 onClick={() => {
                   setIsOpen(false);
                   setEditingProduct(null);
+                  setForm(emptyForm);
                 }}
                 className="flex-1 rounded-xl border py-3 font-bold"
               >

@@ -1,9 +1,16 @@
+import heroProducts from "../assets/hero-products.png";
+
 export default function Hero() {
   return (
-    <section className="bg-gradient-to-br from-blue-50 via-white to-sky-200">
-      <div className="mx-auto grid max-w-7xl gap-10 px-6 py-16 lg:grid-cols-2 lg:items-center">
+    <section className="relative overflow-hidden bg-gradient-to-br from-white via-blue-50 to-sky-100">
+      <div className="absolute inset-0 opacity-60">
+        <div className="absolute left-0 top-24 h-80 w-80 -translate-x-1/2 rotate-45 bg-blue-100" />
+        <div className="absolute right-0 top-20 h-96 w-96 translate-x-1/3 rotate-45 bg-sky-200" />
+      </div>
+
+      <div className="relative mx-auto grid max-w-7xl gap-10 px-6 py-16 lg:grid-cols-[0.95fr_1.25fr] lg:items-center">
         <div>
-          <p className="inline-block rounded-full border border-blue-600 px-5 py-2 text-sm font-bold text-blue-700">
+          <p className="inline-block rounded-full border border-blue-600 bg-white px-5 py-2 text-sm font-bold text-blue-700">
             TOKO PLASTIK SINAR BARU
           </p>
 
@@ -18,41 +25,88 @@ export default function Hero() {
           </p>
 
           <div className="mt-8 grid gap-4 sm:grid-cols-3">
-            {["Produk Lengkap", "Harga Bersahabat", "Layanan Terpercaya"].map(
-              (item) => (
-                <div
-                  key={item}
-                  className="rounded-xl border bg-white/80 p-4 shadow-sm"
-                >
-                  <p className="font-bold text-blue-700">{item}</p>
-                  <p className="text-sm text-slate-600">Siap melayani Anda</p>
+            {[
+              ["🛡️", "Produk Lengkap", "Aneka pilihan"],
+              ["🏷️", "Harga Bersahabat", "Kualitas terjamin"],
+              ["🚚", "Layanan Terpercaya", "Siap melayani Anda"],
+            ].map(([icon, title, desc]) => (
+              <div
+                key={title}
+                className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm"
+              >
+                  {icon}
+
+                <div>
+                  <p className="font-bold text-blue-700">{title}</p>
+                  <p className="text-sm text-slate-600">{desc}</p>
                 </div>
-              )
-            )}
+              </div>
+            ))}
           </div>
 
           <div className="mt-8 flex gap-4">
             <a
-              href="#produk"
-              className="rounded-xl bg-blue-700 px-6 py-3 font-bold text-white shadow hover:bg-blue-800"
+              href="/products"
+              className="rounded-xl bg-blue-700 px-7 py-4 font-bold text-white shadow hover:bg-blue-800"
             >
-              Lihat Produk
+              🛍️ Lihat Produk
             </a>
 
             <a
               href="https://wa.me/"
-              className="rounded-xl border border-blue-700 bg-white px-6 py-3 font-bold text-blue-700 hover:bg-blue-50"
+              className="rounded-xl border border-blue-700 bg-white px-7 py-4 font-bold text-blue-700 hover:bg-blue-50"
             >
-              Hubungi Kami
+              WhatsApp Kami
             </a>
           </div>
         </div>
 
-        <div className="rounded-[2rem] border-8 border-white bg-blue-700 p-6 shadow-2xl">
-          <div className="flex h-80 items-center justify-center rounded-3xl bg-white/10 text-center text-3xl font-extrabold text-white">
-            Plastik • Mika • Sedotan • Dus
-          </div>
+<div className="relative pt-6 lg:pt-10">
+  <div className="relative h-[230px] overflow-visible rounded-[2rem] border-4 border-white bg-blue-700 shadow-2xl sm:h-[300px] lg:h-[360px]">
+    <img
+      src={heroProducts}
+      alt="Produk plastik Sinar Baru"
+      className="absolute -bottom-10 left-1/2 z-10 w-[112%] max-w-[460px] -translate-x-1/2 object-contain sm:-bottom-12 sm:w-[110%] sm:max-w-[620px] lg:-bottom-20 lg:w-[128%] lg:max-w-none"
+    />
+  </div>
+
+  <div className="relative z-20 mx-auto -mt-6 w-[94%] rounded-3xl bg-white p-5 shadow-2xl sm:-mt-12 sm:p-6 lg:-mt-6 lg:w-[92%] lg:p-7">
+<div className="grid gap-5">
+          <div>
+        <h3 className="text-lg font-extrabold text-slate-950 lg:text-xl">
+          TERSEDIA :
+        </h3>
+
+<div className="mt-4 grid grid-cols-2 gap-3 text-sm font-semibold text-slate-700 lg:grid-cols-4 lg:text-base">          <p>✓ Aneka Plastik</p>
+          <p>✓ Styrofoam Makanan</p>
+          <p>✓ Mika</p>
+          <p>✓ Sedotan, Sendok</p>
+          <p>✓ Thinwall</p>
+          <p>✓ Kertas Nasi</p>
+          <p>✓ Gelas Plastik</p>
+          <p>✓ DLL</p>
         </div>
+      </div>
+
+      {/* <div className="hidden space-y-5 border-slate-200 lg:block lg:border-l lg:pl-7">
+        <div>
+          <p className="font-extrabold text-slate-900">📦 Barang Lengkap</p>
+          <p className="text-sm text-slate-500">Semua kebutuhan ada</p>
+        </div>
+
+        <div>
+          <p className="font-extrabold text-slate-900">🏷️ Harga Bersaing</p>
+          <p className="text-sm text-slate-500">Lebih hemat untuk usaha</p>
+        </div>
+
+        <div>
+          <p className="font-extrabold text-slate-900">🏅 Layanan Terpercaya</p>
+          <p className="text-sm text-slate-500">Kepuasan pelanggan prioritas</p>
+        </div>
+      </div> */}
+    </div>
+  </div>
+</div>
       </div>
     </section>
   );

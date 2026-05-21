@@ -11,6 +11,13 @@ router = APIRouter()
 class CategoryCreate(BaseModel):
     name: str
     description: str | None = None
+    image_url: str | None = None
+
+
+class CategoryUpdate(BaseModel):
+    name: str
+    description: str | None = None
+    image_url: str | None = None
 
 
 def get_db():
@@ -33,10 +40,37 @@ def get_categories(db: Session = Depends(get_db)):
 
 @router.post("/")
 def create_category(data: CategoryCreate, db: Session = Depends(get_db)):
-    category = Category(**data.model_dump())
+    category = Category(
+        name=data.name,
+        description=data.description,
+        image_url=data.image_url,
+    )
+
     db.add(category)
     db.commit()
     db.refresh(category)
+
+    return category
+
+
+@router.put("/{category_id}")
+def update_category(
+    category_id: int,
+    data: CategoryUpdate,
+    db: Session = Depends(get_db),
+):
+    category = db.query(Category).filter(Category.id == category_id).first()
+
+    if not category:
+        raise HTTPException(status_code=404, detail="Category not found")
+
+    category.name = data.name
+    category.description = data.description
+    category.image_url = data.image_url
+
+    db.commit()
+    db.refresh(category)
+
     return category
 
 

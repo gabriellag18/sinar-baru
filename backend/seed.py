@@ -9,6 +9,11 @@ db = SessionLocal()
 categories = [
     Category(name="Kantong Plastik"),
     Category(name="Mika Makanan"),
+    Category(name="Mika 1"),
+    Category(name="Mika 2"),
+    Category(name="Mika 3"),
+    Category(name="Mika 4"),
+
 ]
 
 db.add_all(categories)
@@ -20,6 +25,38 @@ category_map = {
 }
 
 products = [
+    Product(
+        name="Sedotan Warna",
+        price="Rp 7.500 / pack",
+        categories=[
+            category_map["Mika Makanan"],
+            category_map["Kantong Plastik"],
+        ],
+    ),
+    Product(
+        name="Sedotan 1",
+        price="Rp 7.500 / pack",
+        categories=[
+            category_map["Mika Makanan"],
+            category_map["Kantong Plastik"],
+        ],
+    ),
+    Product(
+        name="Sedotan 2",
+        price="Rp 7.500 / pack",
+        categories=[
+            category_map["Mika Makanan"],
+            category_map["Kantong Plastik"],
+        ],
+    ),
+    Product(
+        name="Sedotan 3",
+        price="Rp 7.500 / pack",
+        categories=[
+            category_map["Mika Makanan"],
+            category_map["Kantong Plastik"],
+        ],
+    ),
     Product(
         name="Sedotan Warna",
         price="Rp 7.500 / pack",

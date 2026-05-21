@@ -17,16 +17,23 @@ export default function Navbar() {
           </div>
         </div>
 
-        <div className="hidden gap-8 font-semibold md:flex">
-          <a href="#">Beranda</a>
-          <a href="#produk">Produk</a>
-          <a href="#kategori">Kategori</a>
-          <a href="#kontak">Kontak</a>
+        <div className="hidden items-center gap-8 font-semibold text-white md:flex">
+        <a href="/" className="hover:text-blue-100">
+            Beranda
+        </a>
+
+        <a href="/products" className="hover:text-blue-100">
+            Produk
+        </a>
+
+        <a href="#kontak" className="hover:text-blue-100">
+            Kontak
+        </a>
         </div>
 
         <a
           href="https://wa.me/"
-          className="rounded-xl bg-green-500 px-5 py-3 font-bold text-white hover:bg-green-600"
+          className="rounded-2xl border border-green-300 bg-white px-6 py-3 font-bold text-green-600 transition hover:bg-green-50"        
         >
           WhatsApp Kami
         </a>

@@ -1,0 +1,158 @@
+import { useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+
+const API_BASE_URL = "http://localhost:8000";
+
+export default function ProductCatalog({ products, categories, loading, error }) {
+  const [search, setSearch] = useState("");
+  const [sort, setSort] = useState("name");
+    const [searchParams] = useSearchParams();
+    const initialCategory = searchParams.get("category") ?? "all";
+    const [activeCategory, setActiveCategory] = useState(initialCategory);
+
+  const filteredProducts = useMemo(() => {
+    let result = [...products];
+
+    if (activeCategory !== "all") {
+      result = result.filter((product) =>
+        product.categories?.some((category) => category.id === Number(activeCategory))
+      );
+    }
+
+    if (search.trim()) {
+      result = result.filter((product) =>
+        product.name.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+
+    if (sort === "name") {
+      result.sort((a, b) => a.name.localeCompare(b.name));
+    }
+
+    if (sort === "featured") {
+      result.sort((a, b) => Number(b.is_featured) - Number(a.is_featured));
+    }
+
+    return result;
+  }, [products, activeCategory, search, sort]);
+
+  return (
+    <section id="produk" className="bg-slate-50 py-20">
+      <div className="mx-auto max-w-7xl px-6">
+        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <h2 className="text-3xl font-extrabold text-slate-950">
+              Produk & Kategori
+            </h2>
+            <p className="mt-2 text-slate-500">
+              Cari produk berdasarkan nama atau kategori.
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <input
+              placeholder="Cari produk..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="rounded-xl border border-slate-200 bg-white px-4 py-3 outline-none focus:border-blue-600"
+            />
+
+            <select
+              value={sort}
+              onChange={(e) => setSort(e.target.value)}
+              className="rounded-xl border border-slate-200 bg-white px-4 py-3 outline-none focus:border-blue-600"
+            >
+              <option value="name">Sort: Nama</option>
+              <option value="featured">Sort: Featured</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="mt-8 flex gap-3 overflow-x-auto pb-2">
+          <button
+            onClick={() => setActiveCategory("all")}
+            className={`whitespace-nowrap rounded-full px-5 py-2 font-bold ${
+              activeCategory === "all"
+                ? "bg-blue-700 text-white"
+                : "bg-white text-slate-700"
+            }`}
+          >
+            Semua
+          </button>
+
+          {categories.map((category) => (
+            <button
+              key={category.id}
+              onClick={() => setActiveCategory(String(category.id))}
+              className={`whitespace-nowrap rounded-full px-5 py-2 font-bold ${
+                activeCategory === String(category.id)
+                  ? "bg-blue-700 text-white"
+                  : "bg-white text-slate-700"
+              }`}
+            >
+              {category.name}
+            </button>
+          ))}
+        </div>
+
+        {loading && <p className="mt-8 text-slate-500">Loading produk...</p>}
+
+        {error && (
+          <p className="mt-8 rounded-xl bg-red-50 p-4 text-red-600">{error}</p>
+        )}
+
+        {!loading && !error && (
+          <>
+            <p className="mt-6 text-sm font-semibold text-slate-500">
+              Menampilkan {filteredProducts.length} produk
+            </p>
+
+            <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {filteredProducts.map((product) => (
+                <div
+                  key={product.id}
+                  className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+                >
+                  <div className="flex h-40 items-center justify-center rounded-2xl bg-blue-50 p-4">
+                    {product.image_url ? (
+                      <img
+                        src={`${API_BASE_URL}${product.image_url}`}
+                        alt={product.name}
+                        className="h-full w-full object-contain"
+                      />
+                    ) : (
+                      <span className="text-5xl">🛍️</span>
+                    )}
+                  </div>
+
+                  <h3 className="mt-5 font-extrabold text-slate-950">
+                    {product.name}
+                  </h3>
+
+                  <p className="mt-1 text-sm text-slate-500">
+                    {product.categories?.map((c) => c.name).join(", ")}
+                  </p>
+
+                  <p className="mt-3 text-sm text-slate-600">
+                    {product.description}
+                  </p>
+
+                  <p className="mt-4 text-lg font-extrabold text-blue-700">
+                    {product.price}
+                  </p>
+
+                  <a
+                    href="https://wa.me/"
+                    className="mt-4 block rounded-xl bg-blue-700 px-4 py-3 text-center text-sm font-bold text-white hover:bg-blue-800"
+                  >
+                    Tanya Produk
+                  </a>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  );
+}
