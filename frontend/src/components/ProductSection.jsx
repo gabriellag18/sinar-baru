@@ -44,7 +44,7 @@ export default function ProductSection({ products, loading, error }) {
                 </h4>
 
                 <p className="mt-1 text-sm text-slate-500">
-                  {product.category.name}
+                  {product.categories.map((c) => c.name).join(", ")}
                 </p>
 
                 <p className="mt-3 text-sm text-slate-600">

@@ -160,7 +160,7 @@ export default function AdminProducts() {
             </h2>
 
             <p className="mt-1 text-sm text-slate-500">
-              {product.category.name}
+              {product.categories.map((c) => c.name).join(", ")}
             </p>
 
             <p className="mt-3 font-bold text-blue-700">

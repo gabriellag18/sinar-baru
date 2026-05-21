@@ -1,9 +1,23 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Text
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Table, Text
 from sqlalchemy.orm import relationship
 
 from database import Base
 
 
+product_categories = Table(
+    "product_categories",
+    Base.metadata,
+    Column("product_id", ForeignKey("products.id"), primary_key=True),
+    Column("category_id", ForeignKey("categories.id"), primary_key=True),
+)
+
+class Admin(Base):
+    __tablename__ = "admins"
+
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String, nullable=False, unique=True)
+    hashed_password = Column(String, nullable=False)
+    
 class Category(Base):
     __tablename__ = "categories"
 
@@ -11,7 +25,11 @@ class Category(Base):
     name = Column(String, nullable=False, unique=True)
     description = Column(Text, nullable=True)
 
-    products = relationship("Product", back_populates="category")
+    products = relationship(
+        "Product",
+        secondary=product_categories,
+        back_populates="categories",
+    )
 
 
 class Product(Base):
@@ -24,12 +42,8 @@ class Product(Base):
     image_url = Column(String, nullable=True)
     is_featured = Column(Boolean, default=True)
 
-    category_id = Column(Integer, ForeignKey("categories.id"), nullable=False)
-    category = relationship("Category", back_populates="products")
-
-class Admin(Base):
-    __tablename__ = "admins"
-
-    id = Column(Integer, primary_key=True, index=True)
-    username = Column(String, nullable=False, unique=True)
-    hashed_password = Column(String, nullable=False)
+    categories = relationship(
+        "Category",
+        secondary=product_categories,
+        back_populates="products",
+    )

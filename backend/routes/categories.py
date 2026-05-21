@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 
 from database import SessionLocal
 from models import Category
@@ -23,7 +23,12 @@ def get_db():
 
 @router.get("/")
 def get_categories(db: Session = Depends(get_db)):
-    return db.query(Category).order_by(Category.id).all()
+    return (
+        db.query(Category)
+        .options(joinedload(Category.products))
+        .order_by(Category.id)
+        .all()
+    )
 
 
 @router.post("/")
