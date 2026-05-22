@@ -28,9 +28,7 @@ async def upload_to_supabase(file: UploadFile, folder: str):
             },
         )
 
-        public_url = supabase.storage.from_(BUCKET).get_public_url(filename)
-
-        return public_url
+        return supabase.storage.from_(BUCKET).get_public_url(filename)
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

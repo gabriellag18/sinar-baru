@@ -12,6 +12,11 @@ export default function ProductModal({
     (product?.image_url ? [product.image_url] : []);
 
   const [selectedImage, setSelectedImage] = useState(0);
+    const getImageUrl = (path) => {
+    if (!path) return "";
+    if (path.startsWith("http")) return path;
+    return `${API_BASE_URL}${path}`;
+    };
 
   useEffect(() => {
     setSelectedImage(0);
@@ -46,7 +51,7 @@ export default function ProductModal({
             <div className="flex h-80 items-center justify-center rounded-3xl bg-blue-50 p-6">
               {images.length > 0 ? (
                 <img
-                  src={`${API_BASE_URL}${images[selectedImage]}`}
+                  src={getImageUrl(images[selectedImage])}
                   alt={product.name}
                   className="h-full w-full object-contain"
                 />
@@ -69,7 +74,7 @@ export default function ProductModal({
                     }`}
                   >
                     <img
-                      src={`${API_BASE_URL}${image}`}
+                      src={getImageUrl(image)}
                       alt={`Preview ${index}`}
                       className="h-full w-full object-contain"
                     />

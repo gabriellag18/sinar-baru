@@ -152,9 +152,9 @@ export default function ProductCatalog({ products, categories, loading, error })
                   className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
                 >
                   <div className="flex h-40 items-center justify-center rounded-2xl bg-blue-50 p-4">
-                    {getImageUrl(product.image_url) ? (
+                    {getImageUrl(imageUrl) ? (
                       <img
-                        src={`${API_BASE_URL}${getImageUrl(product.image_url)}`}
+                        src={getImageUrl(imageUrl)}
                         alt={product.name}
                         className="h-full w-full object-contain"
                       />

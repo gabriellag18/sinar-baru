@@ -22,7 +22,11 @@ export default function AdminCategories() {
   const [form, setForm] = useState(emptyForm);
   const [editingCategory, setEditingCategory] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
-
+    const getImageUrl = (path) => {
+    if (!path) return "";
+    if (path.startsWith("http")) return path;
+    return `${API_BASE_URL}${path}`;
+    };
   function loadCategories() {
     getCategories().then(setCategories);
   }
@@ -122,7 +126,7 @@ export default function AdminCategories() {
             <div className="flex h-40 items-center justify-center rounded-2xl bg-blue-50">
               {category.image_url ? (
                 <img
-                  src={`${API_BASE_URL}${category.image_url}`}
+                  src={getImageUrl(category.image_url)}
                   alt={category.name}
                   className="h-full w-full object-contain p-4"
                 />
@@ -209,7 +213,7 @@ export default function AdminCategories() {
 
               {form.image_url && (
                 <img
-                  src={`${API_BASE_URL}${form.image_url}`}
+                  src={getImageUrl(form.image_url)}
                   alt="Preview"
                   className="mt-3 h-32 w-full rounded-xl bg-blue-50 object-contain p-3"
                 />

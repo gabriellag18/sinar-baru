@@ -3,6 +3,12 @@ import { Link } from "react-router-dom";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL;
 
+const getImageUrl = (path) => {
+  if (!path) return "";
+  if (path.startsWith("http")) return path;
+  return `${API_BASE_URL}${path}`;
+};
+
 export default function CategorySection({ categories, loading, error }) {
   const scrollRef = useRef(null);
 
@@ -47,7 +53,7 @@ export default function CategorySection({ categories, loading, error }) {
                   <div className="mx-auto flex h-36 items-center justify-center">
                     {category.image_url ? (
                       <img
-                        src={`${API_BASE_URL}${category.image_url}`}
+                        src={getImageUrl(category.image_url)}
                         alt={category.name}
                         className="h-32 w-32 object-contain"
                       />

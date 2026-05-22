@@ -62,9 +62,9 @@ export default function ProductSection({ products, loading, error }) {
                     className="w-[240px] shrink-0 snap-start rounded-3xl border border-slate-100 bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-xl sm:w-[260px]"
                   >
                     <div className="flex h-52 items-center justify-center rounded-2xl bg-white">
-                      {getImageUrl(product.image_url) ? (
+                      {getImageUrl(imageUrl) ? (
                         <img
-                          src={`${API_BASE_URL}${getImageUrl(product.image_url)}`}
+                          src={getImageUrl(imageUrl)}
                           alt={product.name}
                           className="h-48 w-full object-contain"
                         />
