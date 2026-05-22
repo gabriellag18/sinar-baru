@@ -171,7 +171,7 @@ export default function ProductCatalog({ products, categories, loading, error })
                     {product.categories?.map((c) => c.name).join(", ")}
                   </p>
 
-                  <p className="mt-3 text-sm text-slate-600">
+                  <p className="mt-3 line-clamp-4 text-sm text-slate-600">
                     {product.description}
                   </p>
 
