@@ -29,7 +29,7 @@ def get_db():
         db.close()
 
 
-@router.get("/")
+@router.get("")
 def get_categories(db: Session = Depends(get_db)):
     return (
         db.query(Category)
@@ -39,7 +39,7 @@ def get_categories(db: Session = Depends(get_db)):
     )
 
 
-@router.post("/")
+@router.post("")
 def create_category(data: CategoryCreate, db: Session = Depends(get_db), admin: str = Depends(get_current_admin)):
     category = Category(
         name=data.name,

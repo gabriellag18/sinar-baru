@@ -17,7 +17,7 @@ def get_db():
         db.close()
 
 
-@router.get("/", response_model=list[ProductOut])
+@router.get("", response_model=list[ProductOut])
 def get_products(db: Session = Depends(get_db)):
     return (
         db.query(Product)
@@ -38,7 +38,7 @@ def get_featured_products(db: Session = Depends(get_db)):
     )
 
 
-@router.post("/", response_model=ProductOut)
+@router.post("", response_model=ProductOut)
 def create_product(data: ProductCreate, db: Session = Depends(get_db), admin: str = Depends(get_current_admin),):
     categories = (
         db.query(Category)
