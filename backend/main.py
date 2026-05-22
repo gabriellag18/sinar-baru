@@ -18,7 +18,7 @@ app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=["http://localhost:5173", "https://sinar-baru.vercel.app/", "https://tokosinarbaru.com", "https://www.tokosinarbaru.com"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
