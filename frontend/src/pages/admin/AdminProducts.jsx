@@ -67,7 +67,11 @@ export default function AdminProducts() {
     });
     setIsOpen(true);
   }
-
+  const getImageUrl = (path) => {
+    if (!path) return "";
+    if (path.startsWith("http")) return path;
+    return `${API_BASE_URL}${path}`;
+  };
   function handleChange(e) {
     const { name, value, type, checked } = e.target;
 
@@ -231,7 +235,7 @@ export default function AdminProducts() {
               <div className="flex h-40 items-center justify-center rounded-2xl bg-blue-50">
                 {coverImage ? (
                   <img
-                    src={`${API_BASE_URL}${coverImage}`}
+                    src={getImageUrl(coverImage)}
                     alt={product.name}
                     className="h-full w-full object-contain p-4"
                   />
@@ -369,6 +373,7 @@ export default function AdminProducts() {
                 />
               </label>
 
+              
               {form.image_urls.length > 0 && (
                 <div className="mt-3 grid grid-cols-3 gap-3">
                   {form.image_urls.map((imageUrl, index) => (
@@ -377,7 +382,7 @@ export default function AdminProducts() {
                       className="relative rounded-2xl bg-blue-50 p-2"
                     >
                       <img
-                        src={`${API_BASE_URL}${imageUrl}`}
+                        src={getImageUrl(imageUrl)}
                         alt={`Preview ${index + 1}`}
                         className="h-24 w-full rounded-xl object-contain"
                       />

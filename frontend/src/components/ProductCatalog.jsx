@@ -141,15 +141,20 @@ export default function ProductCatalog({ products, categories, loading, error })
             <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {filteredProducts.map((product) => {
                 const imageUrl = product.images?.[0]?.image_url ?? product.image_url ?? "";
+                const getImageUrl = (path) => {
+                    if (!path) return "";
+                    if (path.startsWith("http")) return path;
+                    return `${API_BASE_URL}${path}`;
+                };
                 return (
                 <div
                   key={product.id}
                   className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
                 >
                   <div className="flex h-40 items-center justify-center rounded-2xl bg-blue-50 p-4">
-                    {imageUrl ? (
+                    {getImageUrl(product.image_url) ? (
                       <img
-                        src={`${API_BASE_URL}${imageUrl}`}
+                        src={`${API_BASE_URL}${getImageUrl(product.image_url)}`}
                         alt={product.name}
                         className="h-full w-full object-contain"
                       />
