@@ -30,8 +30,9 @@ export default function ProductModal({
     : "#";
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/50 px-4 py-6">
-        <div className="relative mx-auto mb-10 w-full max-w-4xl rounded-3xl bg-white p-6 shadow-2xl">
+   <div className="fixed inset-0 z-50 overflow-y-auto bg-black/50 px-4 py-6">
+  <div className="flex min-h-full items-center justify-center">
+    <div className="relative w-full max-w-4xl rounded-3xl bg-white p-6 shadow-2xl">
         <button
           onClick={onClose}
           className="absolute right-4 top-4 text-2xl font-bold text-slate-400 hover:text-slate-700"
@@ -152,5 +153,7 @@ export default function ProductModal({
         </div>
       </div>
     </div>
+    </div>
   );
+
 }
