@@ -1,4 +1,5 @@
 const API_BASE_URL = "http://localhost:8000";
+const token = localStorage.getItem("admin_token");
 
 async function request(path, options = {}) {
   const token = localStorage.getItem("admin_token");

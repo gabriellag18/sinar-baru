@@ -33,6 +33,15 @@ class CategoryCreate(BaseModel):
     description: str | None = None
     image_url: str | None = None
 
+
+class ProductImageOut(BaseModel):
+    id: int
+    image_url: str
+
+    class Config:
+        from_attributes = True
+
+        
 class ProductOut(BaseModel):
     id: int
     name: str
@@ -41,7 +50,9 @@ class ProductOut(BaseModel):
     image_url: str | None = None
     is_featured: bool
     categories: list[CategoryOut]
-
+    stock_quantity: int
+    show_stock: bool
+    images: list[ProductImageOut] = []
     class Config:
         from_attributes = True
 
@@ -53,6 +64,9 @@ class ProductCreate(BaseModel):
     image_url: str | None = None
     is_featured: bool = True
     category_ids: list[int]
+    stock_quantity: int = 0
+    show_stock: bool = False
+    image_urls: list[str] = []
 
 
 class ProductUpdate(BaseModel):
@@ -62,3 +76,7 @@ class ProductUpdate(BaseModel):
     image_url: str | None = None
     is_featured: bool = True
     category_ids: list[int]
+    stock_quantity: int = 0
+    show_stock: bool = False
+    image_urls: list[str] = []
+

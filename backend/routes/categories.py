@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session, joinedload
 
 from database import SessionLocal
 from models import Category
+from auth import get_current_admin
 
 router = APIRouter()
 
@@ -39,7 +40,7 @@ def get_categories(db: Session = Depends(get_db)):
 
 
 @router.post("/")
-def create_category(data: CategoryCreate, db: Session = Depends(get_db)):
+def create_category(data: CategoryCreate, db: Session = Depends(get_db), admin: str = Depends(get_current_admin)):
     category = Category(
         name=data.name,
         description=data.description,
@@ -58,6 +59,7 @@ def update_category(
     category_id: int,
     data: CategoryUpdate,
     db: Session = Depends(get_db),
+    admin: str = Depends(get_current_admin),
 ):
     category = db.query(Category).filter(Category.id == category_id).first()
 
@@ -75,7 +77,7 @@ def update_category(
 
 
 @router.delete("/{category_id}")
-def delete_category(category_id: int, db: Session = Depends(get_db)):
+def delete_category(category_id: int, db: Session = Depends(get_db), admin: str = Depends(get_current_admin)):
     category = db.query(Category).filter(Category.id == category_id).first()
 
     if not category:

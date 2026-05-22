@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 import HomePage from "./pages/HomePage";
 import AdminLogin from "./pages/admin/AdminLogin";
@@ -7,12 +8,14 @@ import AdminProducts from "./pages/admin/AdminProducts";
 import AdminCategories from "./pages/admin/AdminCategories";
 import ProductCatalogPage from "./pages/ProductCatalogPage";
 import AdminFinance from "./pages/admin/AdminFinance";
+import AdminSettings from "./pages/admin/AdminSettings";
 
 import ProtectedRoute from "./components/admin/ProtectedRoute";
 
 export default function App() {
   return (
     <BrowserRouter>
+      <Toaster position="top-right"></Toaster>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route
@@ -45,6 +48,14 @@ export default function App() {
           element={
             <ProtectedRoute>
               <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/settings"
+          element={
+            <ProtectedRoute>
+              <AdminSettings />
             </ProtectedRoute>
           }
         />

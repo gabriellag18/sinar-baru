@@ -6,8 +6,8 @@ Base.metadata.create_all(bind=engine)
 
 db = SessionLocal()
 
-username = "admin"
-password = "admin123"
+username = "jesslyn"
+password = "jesslyn123"
 
 existing = db.query(Admin).filter(Admin.username == username).first()
 

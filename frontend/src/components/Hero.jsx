@@ -1,4 +1,5 @@
 import heroProducts from "../assets/hero-products.png";
+import { Link } from "react-router-dom";
 
 export default function Hero() {
   return (
@@ -23,7 +24,17 @@ export default function Hero() {
             Menyediakan berbagai kebutuhan plastik dan kemasan berkualitas
             dengan harga bersaing dan layanan terpercaya.
           </p>
+        <div className="mt-5 flex flex-wrap items-center gap-4 text-sm font-semibold text-slate-600">
+        {/* <div className="flex items-center gap-2 rounded-full bg-white px-4 py-2 shadow-sm"> */}
+            <span>📍</span>
+            <span>Jl. Tinumbu No. 244, Makassar</span>
+        {/* </div> */}
 
+        {/* <div className="flex items-center gap-2 rounded-full bg-white px-4 py-2 shadow-sm">
+            <span>🕒</span>
+            <span>Buka Setiap Hari</span>
+        </div> */}
+        </div>
           <div className="mt-8 grid gap-4 sm:grid-cols-3">
             {[
               ["🛡️", "Produk Lengkap", "Aneka pilihan"],
@@ -52,12 +63,12 @@ export default function Hero() {
               🛍️ Lihat Produk
             </a>
 
-            <a
-              href="https://wa.me/"
-              className="rounded-xl border border-blue-700 bg-white px-7 py-4 font-bold text-blue-700 hover:bg-blue-50"
+            <Link
+            to="/?scroll=kontak"
+            className="rounded-xl border border-blue-700 bg-white px-7 py-4 font-bold text-blue-700 hover:bg-blue-50"
             >
-              WhatsApp Kami
-            </a>
+            Kontak Kami
+            </Link>
           </div>
         </div>
 

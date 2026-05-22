@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 
 from database import SessionLocal
 from models import SiteSetting
+from auth import get_current_admin
 
 router = APIRouter()
 
@@ -31,7 +32,7 @@ def get_setting(key: str, db: Session = Depends(get_db)):
 
 
 @router.put("/{key}")
-def update_setting(key: str, data: SettingUpdate, db: Session = Depends(get_db)):
+def update_setting(key: str, data: SettingUpdate, db: Session = Depends(get_db), admin: str = Depends(get_current_admin)):
     setting = db.query(SiteSetting).filter(SiteSetting.key == key).first()
 
     if setting:

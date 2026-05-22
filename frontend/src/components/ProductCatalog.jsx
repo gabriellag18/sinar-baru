@@ -1,5 +1,7 @@
-import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
+import ProductModal from "./ProductModal";
+import { getSetting } from "../services/api";
 
 const API_BASE_URL = "http://localhost:8000";
 
@@ -9,7 +11,17 @@ export default function ProductCatalog({ products, categories, loading, error })
     const [searchParams] = useSearchParams();
     const initialCategory = searchParams.get("category") ?? "all";
     const [activeCategory, setActiveCategory] = useState(initialCategory);
+    const [selectedProduct, setSelectedProduct] = useState(null);
+    const [whatsappNumber, setWhatsappNumber] = useState("");
 
+    useEffect(() => {
+    getSetting("whatsapp_number").then((data) => {
+        setWhatsappNumber(data.value);
+    });
+    }, []);
+    function getPriceNumber(price) {
+    return Number(String(price).replace(/\D/g, "")) || 0;
+    }
   const filteredProducts = useMemo(() => {
     let result = [...products];
 
@@ -26,13 +38,28 @@ export default function ProductCatalog({ products, categories, loading, error })
     }
 
     if (sort === "name") {
-      result.sort((a, b) => a.name.localeCompare(b.name));
+    result.sort((a, b) => a.name.localeCompare(b.name));
     }
 
     if (sort === "featured") {
-      result.sort((a, b) => Number(b.is_featured) - Number(a.is_featured));
+    result.sort((a, b) => Number(b.is_featured) - Number(a.is_featured));
     }
 
+    if (sort === "price-low") {
+    result.sort((a, b) => getPriceNumber(a.price) - getPriceNumber(b.price));
+    }
+
+    if (sort === "price-high") {
+    result.sort((a, b) => getPriceNumber(b.price) - getPriceNumber(a.price));
+    }
+
+    if (sort === "stock-low") {
+    result.sort((a, b) => (a.stock_quantity ?? 0) - (b.stock_quantity ?? 0));
+    }
+
+    if (sort === "stock-high") {
+    result.sort((a, b) => (b.stock_quantity ?? 0) - (a.stock_quantity ?? 0));
+    }
     return result;
   }, [products, activeCategory, search, sort]);
 
@@ -58,12 +85,16 @@ export default function ProductCatalog({ products, categories, loading, error })
             />
 
             <select
-              value={sort}
-              onChange={(e) => setSort(e.target.value)}
-              className="rounded-xl border border-slate-200 bg-white px-4 py-3 outline-none focus:border-blue-600"
+            value={sort}
+            onChange={(e) => setSort(e.target.value)}
+            className="rounded-xl border border-slate-200 bg-white px-4 py-3 outline-none focus:border-blue-600"
             >
-              <option value="name">Sort: Nama</option>
-              <option value="featured">Sort: Featured</option>
+            <option value="name">Sort: Nama</option>
+            <option value="price-low">Harga: Rendah → Tinggi</option>
+            <option value="price-high">Harga: Tinggi → Rendah</option>
+            <option value="stock-low">Stock: Rendah → Tinggi</option>
+            <option value="stock-high">Stock: Tinggi → Rendah</option>
+            <option value="featured">Featured</option>
             </select>
           </div>
         </div>
@@ -108,15 +139,17 @@ export default function ProductCatalog({ products, categories, loading, error })
             </p>
 
             <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {filteredProducts.map((product) => (
+              {filteredProducts.map((product) => {
+                const imageUrl = product.images?.[0]?.image_url ?? product.image_url ?? "";
+                return (
                 <div
                   key={product.id}
                   className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
                 >
                   <div className="flex h-40 items-center justify-center rounded-2xl bg-blue-50 p-4">
-                    {product.image_url ? (
+                    {imageUrl ? (
                       <img
-                        src={`${API_BASE_URL}${product.image_url}`}
+                        src={`${API_BASE_URL}${imageUrl}`}
                         alt={product.name}
                         className="h-full w-full object-contain"
                       />
@@ -140,19 +173,40 @@ export default function ProductCatalog({ products, categories, loading, error })
                   <p className="mt-4 text-lg font-extrabold text-blue-700">
                     {product.price}
                   </p>
-
-                  <a
-                    href="https://wa.me/"
-                    className="mt-4 block rounded-xl bg-blue-700 px-4 py-3 text-center text-sm font-bold text-white hover:bg-blue-800"
-                  >
-                    Tanya Produk
-                  </a>
+                    {product.show_stock && (
+                    <div
+                        className={`mt-2 inline-flex rounded-full px-3 py-1 text-xs font-bold ${
+                        product.stock_quantity > 10
+                            ? "bg-green-100 text-green-700"
+                            : product.stock_quantity > 0
+                            ? "bg-yellow-100 text-yellow-700"
+                            : "bg-red-100 text-red-700"
+                        }`}
+                    >
+                        {product.stock_quantity > 0
+                        ? `Stock: ${product.stock_quantity}`
+                        : "Out of stock"}
+                    </div>
+                    )}
+                    <button
+                    onClick={() => setSelectedProduct(product)}
+                    className="mt-4 w-full rounded-xl bg-blue-700 px-4 py-3 text-center text-sm font-bold text-white hover:bg-blue-800"
+                    >
+                    Detail Produk
+                    </button>
                 </div>
-              ))}
+                );}
+            )}
+              
             </div>
           </>
         )}
       </div>
+    <ProductModal
+        product={selectedProduct}
+        whatsappNumber={whatsappNumber}
+        onClose={() => setSelectedProduct(null)}
+    />
     </section>
   );
 }

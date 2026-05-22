@@ -2,8 +2,9 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session, joinedload
 
 from database import SessionLocal
-from models import Category, Product
 from schemas import ProductCreate, ProductOut, ProductUpdate
+from models import Category, Product, ProductImage
+from auth import get_current_admin
 
 router = APIRouter()
 
@@ -38,7 +39,7 @@ def get_featured_products(db: Session = Depends(get_db)):
 
 
 @router.post("/", response_model=ProductOut)
-def create_product(data: ProductCreate, db: Session = Depends(get_db)):
+def create_product(data: ProductCreate, db: Session = Depends(get_db), admin: str = Depends(get_current_admin),):
     categories = (
         db.query(Category)
         .filter(Category.id.in_(data.category_ids))
@@ -55,8 +56,13 @@ def create_product(data: ProductCreate, db: Session = Depends(get_db)):
         image_url=data.image_url,
         is_featured=data.is_featured,
         categories=categories,
+        stock_quantity=data.stock_quantity,
+        show_stock=data.show_stock,
     )
-
+    product.images = [
+        ProductImage(image_url=url)
+        for url in data.image_urls
+    ]
     db.add(product)
     db.commit()
     db.refresh(product)
@@ -69,6 +75,7 @@ def update_product(
     product_id: int,
     data: ProductUpdate,
     db: Session = Depends(get_db),
+    admin: str = Depends(get_current_admin),
 ):
     product = db.query(Product).filter(Product.id == product_id).first()
 
@@ -90,7 +97,13 @@ def update_product(
     product.image_url = data.image_url
     product.is_featured = data.is_featured
     product.categories = categories
-
+    product.stock_quantity = data.stock_quantity
+    product.show_stock = data.show_stock
+    product.images = [
+        ProductImage(image_url=url)
+        for url in data.image_urls
+    ]
+    
     db.commit()
     db.refresh(product)
 
@@ -98,7 +111,7 @@ def update_product(
 
 
 @router.delete("/{product_id}")
-def delete_product(product_id: int, db: Session = Depends(get_db)):
+def delete_product(product_id: int, db: Session = Depends(get_db), admin: str = Depends(get_current_admin),):
     product = db.query(Product).filter(Product.id == product_id).first()
 
     if not product:

@@ -3,7 +3,6 @@ from sqlalchemy.orm import relationship
 
 from database import Base
 
-
 product_categories = Table(
     "product_categories",
     Base.metadata,
@@ -17,7 +16,7 @@ class SiteSetting(Base):
     id = Column(Integer, primary_key=True, index=True)
     key = Column(String, nullable=False, unique=True)
     value = Column(String, nullable=False)
-    
+
 class Transaction(Base):
     __tablename__ = "transactions"
 
@@ -59,9 +58,24 @@ class Product(Base):
     description = Column(Text, nullable=True)
     image_url = Column(String, nullable=True)
     is_featured = Column(Boolean, default=True)
-
+    images = relationship(
+        "ProductImage",
+        back_populates="product",
+        cascade="all, delete-orphan",
+    )
     categories = relationship(
         "Category",
         secondary=product_categories,
         back_populates="products",
     )
+    stock_quantity = Column(Integer, default=0)
+    show_stock = Column(Boolean, default=False)
+
+class ProductImage(Base):
+    __tablename__ = "product_images"
+
+    id = Column(Integer, primary_key=True, index=True)
+    image_url = Column(String, nullable=False)
+    product_id = Column(Integer, ForeignKey("products.id"), nullable=False)
+
+    product = relationship("Product", back_populates="images")

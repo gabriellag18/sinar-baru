@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from database import SessionLocal
 from models import Transaction
 from schemas import TransactionCreate, TransactionOut
+from auth import get_current_admin
 
 router = APIRouter()
 
@@ -17,12 +18,12 @@ def get_db():
 
 
 @router.get("/transactions", response_model=list[TransactionOut])
-def get_transactions(db: Session = Depends(get_db)):
+def get_transactions(db: Session = Depends(get_db), admin: str = Depends(get_current_admin)):
     return db.query(Transaction).order_by(Transaction.date.desc()).all()
 
 
 @router.post("/transactions", response_model=TransactionOut)
-def create_transaction(data: TransactionCreate, db: Session = Depends(get_db)):
+def create_transaction(data: TransactionCreate, db: Session = Depends(get_db), admin: str = Depends(get_current_admin)):
     transaction = Transaction(**data.model_dump())
     db.add(transaction)
     db.commit()
@@ -31,7 +32,7 @@ def create_transaction(data: TransactionCreate, db: Session = Depends(get_db)):
 
 
 @router.delete("/transactions/{transaction_id}")
-def delete_transaction(transaction_id: int, db: Session = Depends(get_db)):
+def delete_transaction(transaction_id: int, db: Session = Depends(get_db), admin: str = Depends(get_current_admin)):
     transaction = db.query(Transaction).filter(Transaction.id == transaction_id).first()
 
     if transaction:
