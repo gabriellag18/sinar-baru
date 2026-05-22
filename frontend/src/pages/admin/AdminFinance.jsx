@@ -130,7 +130,7 @@ export default function AdminFinance() {
             Finance
           </h1>
           <p className="mt-2 text-slate-500">
-            Analyze income, expense, buy, sell, and monthly profit.
+            Analisis pemasukan, pengeluaran, jual beli, dan keuntungan tiap bulan.
           </p>
         </div>
 
@@ -177,19 +177,19 @@ export default function AdminFinance() {
               <Legend />
                 <Bar
                 dataKey="income"
-                name="Income"
+                name="Pemasukan"
                 fill="#2563eb"
                 />
 
                 <Bar
                 dataKey="expense"
-                name="Expense"
+                name="Pengeluaran"
                 fill="#ef4444"
                 />
 
                 <Bar
                 dataKey="profit"
-                name="Profit"
+                name="Keuntungan"
                 fill="#22c55e"
                 />
             </BarChart>
@@ -203,7 +203,7 @@ export default function AdminFinance() {
           className="rounded-3xl bg-white p-6 shadow-sm"
         >
           <h2 className="text-xl font-extrabold text-slate-900">
-            Add Transaction
+            Tambah Transaksi
           </h2>
 
           <input
@@ -221,8 +221,8 @@ export default function AdminFinance() {
             onChange={handleChange}
             className="mt-3 w-full rounded-xl border px-4 py-3"
           >
-            <option value="income">Income</option>
-            <option value="expense">Expense</option>
+            <option value="income">Pemasukan</option>
+            <option value="expense">Pengeluaran</option>
           </select>
 
           <select
@@ -231,9 +231,9 @@ export default function AdminFinance() {
             onChange={handleChange}
             className="mt-3 w-full rounded-xl border px-4 py-3"
           >
-            <option value="sell">Sell</option>
-            <option value="buy">Buy</option>
-            <option value="other">Other</option>
+            <option value="sell">Jual</option>
+            <option value="buy">Beli</option>
+            <option value="other">Lainnya</option>
           </select>
 
           <input
@@ -263,13 +263,13 @@ export default function AdminFinance() {
           />
 
           <button className="mt-4 w-full rounded-xl bg-blue-700 py-3 font-bold text-white">
-            Save Transaction
+            Simpan Transaksi
           </button>
         </form>
 
         <div className="rounded-3xl bg-white p-6 shadow-sm lg:col-span-2">
           <h2 className="text-xl font-extrabold text-slate-900">
-            Transactions
+            Histori Transaksi
           </h2>
 
             <div className="mt-5 max-h-[600px] space-y-3 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-slate-300">

@@ -34,7 +34,7 @@ export default function AdminDashboard() {
           href="/"
           className="rounded-xl bg-blue-700 px-5 py-3 font-bold text-white"
         >
-          View Website
+          Lihat Website
         </a>
       </div>
 
@@ -47,7 +47,7 @@ export default function AdminDashboard() {
       <div className="mt-8 grid gap-6 lg:grid-cols-3">
         <div className="rounded-3xl bg-white p-6 shadow-sm lg:col-span-2">
           <h2 className="text-xl font-extrabold text-slate-950">
-            Recent Products
+            Produk Terkini
           </h2>
 
           <div className="mt-5 space-y-4">
@@ -77,21 +77,21 @@ export default function AdminDashboard() {
               href="/admin/products"
               className="block rounded-2xl bg-white/15 px-4 py-3 font-bold hover:bg-white/20"
             >
-              + Add Product
+              + Tambah Product
             </a>
 
             <a
               href="/admin/categories"
               className="block rounded-2xl bg-white/15 px-4 py-3 font-bold hover:bg-white/20"
             >
-              + Add Category
+              + Tambah Category
             </a>
 
             <a
               href="/products"
               className="block rounded-2xl bg-white/15 px-4 py-3 font-bold hover:bg-white/20"
             >
-              View Catalog
+              Lihat Catalog
             </a>
           </div>
         </div>

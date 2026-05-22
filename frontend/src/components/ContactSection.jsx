@@ -18,12 +18,12 @@ export default function ContactSection() {
       getSetting("shopee_url"),
       getSetting("shopee_name"),
     ]).then(([wa, address, email, phone, shopee, shopeeName]) => {
-      setWhatsappNumber(wa?.value || "");
-      setStoreAddress(address?.value || "");
-      setStoreEmail(email?.value || "");
+      setWhatsappNumber(wa?.value || "6585753078");
+      setStoreAddress(address?.value || "Jl. Tinumbu No. 244");
+      setStoreEmail(email?.value || "gloriagabriella33@gmail.com");
       setStorePhone(phone?.value || "");
-      setShopeeUrl(shopee?.value || "");
-      setShopeeName(shopeeName?.value || "");
+      setShopeeUrl(shopee?.value || "shopee.com");
+      setShopeeName(shopeeName?.value || "Toko Sinar Baru");
     });
   }, []);
 

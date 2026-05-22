@@ -185,7 +185,7 @@ export default function AdminProducts() {
         <div>
           <h1 className="text-4xl font-extrabold text-slate-900">Products</h1>
           <p className="mt-2 text-slate-500">
-            Manage products shown on the website.
+            Atur products terlihat pada website.
           </p>
         </div>
 
@@ -193,7 +193,7 @@ export default function AdminProducts() {
           onClick={openAddModal}
           className="rounded-xl bg-blue-700 px-5 py-3 font-bold text-white"
         >
-          Add Product
+          Tambah Product
         </button>
       </div>
 
@@ -258,7 +258,7 @@ export default function AdminProducts() {
               </p>
 
               <p className="text-xs font-semibold text-slate-400">
-                {product.show_stock ? "Visible to customers" : "Hidden from customers"}
+                {product.show_stock ? "Terlihat oleh pelanggan" : "Tak terlihat oleh pelanggan"}
               </p>
               <div className="mt-5 flex gap-2">
                 <button
@@ -341,14 +341,14 @@ export default function AdminProducts() {
                 />
 
                 <span className="font-semibold text-slate-700">
-                  Show stock to customers
+                  Perlihatkan stock ke customers
                 </span>
               </label>
             </div>
           </div>
             <div className="mt-3">
               <label className="block text-sm font-bold text-slate-700">
-                Product Images
+                Foto Product
               </label>
 
               <label className="mt-2 flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-blue-300 bg-blue-50 px-4 py-6 text-center hover:bg-blue-100">

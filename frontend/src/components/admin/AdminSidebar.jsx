@@ -70,7 +70,7 @@ export default function AdminSidebar({ onClose }) {
     <button
       onClick={() => {
         localStorage.removeItem("token");
-        window.location.href = "/admin-login";
+        window.location.href = "/admin/login";
       }}
       className="w-full rounded-xl bg-white/10 px-4 py-3 font-bold hover:bg-white/20"
     >

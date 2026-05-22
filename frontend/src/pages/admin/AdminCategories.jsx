@@ -101,7 +101,7 @@ export default function AdminCategories() {
             Categories
           </h1>
           <p className="mt-2 text-slate-500">
-            Manage product categories.
+            Atur kategori products.
           </p>
         </div>
 
@@ -109,7 +109,7 @@ export default function AdminCategories() {
           onClick={openAddModal}
           className="rounded-xl bg-blue-700 px-5 py-3 font-bold text-white"
         >
-          Add Category
+          Tambah Category
         </button>
       </div>
 

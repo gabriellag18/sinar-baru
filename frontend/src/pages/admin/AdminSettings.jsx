@@ -20,12 +20,12 @@ export default function AdminSettings() {
         getSetting("shopee_url"),
         getSetting("shopee_name"),
     ]).then(([wa, address, email, phone, shopee, shopeeName]) => {
-        setWhatsappNumber(wa.value);
-        setStoreAddress(address.value);
-        setStoreEmail(email.value);
-        setStorePhone(phone.value);
-        setShopeeUrl(shopee.value);
-        setShopeeName(shopeeName?.value || "");
+      setWhatsappNumber(wa?.value || "6585753078");
+      setStoreAddress(address?.value || "Jl. Tinumbu No. 244");
+      setStoreEmail(email?.value || "gloriagabriella33@gmail.com");
+      setStorePhone(phone?.value || "");
+      setShopeeUrl(shopee?.value || "shopee.com");
+      setShopeeName(shopeeName?.value || "Toko Sinar Baru");
     });
     }, []);
 
@@ -52,7 +52,7 @@ export default function AdminSettings() {
       </h1>
 
       <p className="mt-2 text-slate-500">
-        Manage website settings.
+        Atur settings website.
       </p>
 
       <form
@@ -63,7 +63,7 @@ export default function AdminSettings() {
         {/* whatsapp */}
         <div>
             <label className="mb-2 block font-bold text-slate-700">
-            WhatsApp Number
+            Nomor WhatsApp
             </label>
 
             <input
@@ -74,7 +74,7 @@ export default function AdminSettings() {
             />
 
             <p className="mt-2 text-sm text-slate-500">
-            Use country code without + or spaces.
+            Gunakan kode negara tanpa + atau spasi.
             Example: 628123456789
             </p>
         </div>
@@ -82,7 +82,7 @@ export default function AdminSettings() {
         {/* address */}
         <div>
             <label className="mb-2 block font-bold text-slate-700">
-            Store Address
+            Alamat Toko
             </label>
 
             <input
@@ -93,14 +93,14 @@ export default function AdminSettings() {
             />
 
             <p className="mt-2 text-sm text-slate-500">
-            This address appears on contact section and map.
+            Alamat ini muncul pada section contact dan map.
             </p>
         </div>
 
         {/* email */}
         <div>
             <label className="mb-2 block font-bold text-slate-700">
-            Store Email
+            Email Toko
             </label>
 
             <input
@@ -111,14 +111,14 @@ export default function AdminSettings() {
             />
 
             <p className="mt-2 text-sm text-slate-500">
-            Customer inquiries will use this email.
+            Inquiry pelanggan akan menggunakan email ini.
             </p>
         </div>
 
         {/* shopee name */}
         <div>
             <label className="mb-2 block font-bold text-slate-700">
-            Shopee Store Name
+            Nama toko pada Shopee
             </label>
 
             <input
@@ -129,14 +129,14 @@ export default function AdminSettings() {
             />
 
             <p className="mt-2 text-sm text-slate-500">
-            Displayed in the contact section.
+            Muncul pada section contact.
             </p>
         </div>
 
         {/* shopee url */}
         <div>
             <label className="mb-2 block font-bold text-slate-700">
-            Shopee URL
+            Shopee Link/URL
             </label>
 
             <input
@@ -147,13 +147,13 @@ export default function AdminSettings() {
             />
 
             <p className="mt-2 text-sm text-slate-500">
-            Full Shopee store link.
+            Full Shopee link.
             </p>
         </div>
         </div>
         {saved && (
           <p className="mt-4 rounded-xl bg-green-50 p-3 text-sm font-bold text-green-700">
-            Settings saved.
+            Settings tersimpan.
           </p>
         )}
 
