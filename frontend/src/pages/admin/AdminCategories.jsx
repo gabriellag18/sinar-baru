@@ -9,7 +9,7 @@ import {
   uploadCategoryImage,
 } from "../../services/api";
 
-const API_BASE_URL = "https://sinar-baru-production.up.railway.app";
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 const emptyForm = {
   name: "",

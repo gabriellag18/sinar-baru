@@ -1,4 +1,4 @@
-const API_BASE_URL = "https://sinar-baru-production.up.railway.app";
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 const token = localStorage.getItem("admin_token");
 
 async function request(path, options = {}) {
