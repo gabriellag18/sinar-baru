@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import ProductModal from "./ProductModal";
 import { getSetting } from "../services/api";
 
-const API_BASE_URL = "http://localhost:8000";
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 export default function ProductCatalog({ products, categories, loading, error }) {
   const [search, setSearch] = useState("");

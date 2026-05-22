@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 
-const API_BASE_URL = "http://localhost:8000";
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 export default function CategorySection({ categories, loading, error }) {
   const scrollRef = useRef(null);
