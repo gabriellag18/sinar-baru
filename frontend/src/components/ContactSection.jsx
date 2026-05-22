@@ -85,9 +85,7 @@ export default function ContactSection() {
         <div className="overflow-hidden rounded-3xl bg-white shadow-xl">
           <iframe
             title="Toko Plastik Sinar Baru Map"
-            src={`https://www.google.com/maps?q=${encodeURIComponent(
-              storeAddress
-            )}&output=embed`}
+            src="https://www.google.com/maps?q=Jl.+Tinumbu+No.+244+Makassar&output=embed"
             className="h-[360px] w-full border-0"
             loading="lazy"
           />
