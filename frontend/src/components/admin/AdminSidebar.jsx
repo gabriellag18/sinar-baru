@@ -11,7 +11,7 @@ export default function AdminSidebar({ onClose }) {
   return (
     // <aside className="flex w-64 flex-col bg-blue-800 p-6 text-white">
         
-      <div className="flex h-screen w-64 flex-col bg-blue-800 text-white shadow-2xl">
+      <div className="sticky top-0 flex min-h-screen w-64 flex-col bg-blue-800 text-white">
   {/* top */}
   <div className="p-5">
     <h1 className="text-3xl font-extrabold leading-none">
