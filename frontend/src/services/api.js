@@ -1,7 +1,10 @@
 const API_BASE_URL = import.meta.env.VITE_API_URL;
 const token = localStorage.getItem("admin_token");
+console.log("API_BASE_URL =", API_BASE_URL);
 
 async function request(path, options = {}) {
+  console.log("API_BASE_URL =", API_BASE_URL);
+
   const token = localStorage.getItem("admin_token");
 
   const response = await fetch(`${API_BASE_URL}${path}`, {
