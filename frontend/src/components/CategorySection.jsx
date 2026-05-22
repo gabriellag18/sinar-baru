@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 
-const API_BASE_URL = import.meta.env.VITE_API_URL;
+const API_BASE_URL = "https://sinar-baru-production.up.railway.app";
 
 export default function CategorySection({ categories, loading, error }) {
   const scrollRef = useRef(null);
